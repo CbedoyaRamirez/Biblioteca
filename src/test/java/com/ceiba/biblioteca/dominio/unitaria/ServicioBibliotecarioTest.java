@@ -30,7 +30,7 @@ public class ServicioBibliotecarioTest {
         ServicioBibliotecario servicioBibliotecario = new ServicioBibliotecario(repositorioLibro, repositorioPrestamo);
 
         // act
-        boolean existeProducto = servicioBibliotecario.esPrestado(libro.getIsbn());
+        boolean existeProducto = servicioBibliotecario.yaEsPrestado(libro.getIsbn());
 
         //assert
         assertTrue(existeProducto);

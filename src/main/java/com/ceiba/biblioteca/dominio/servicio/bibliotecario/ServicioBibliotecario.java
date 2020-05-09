@@ -1,7 +1,10 @@
 package com.ceiba.biblioteca.dominio.servicio.bibliotecario;
 
+import com.ceiba.biblioteca.dominio.Libro;
 import com.ceiba.biblioteca.dominio.repositorio.RepositorioLibro;
 import com.ceiba.biblioteca.dominio.repositorio.RepositorioPrestamo;
+
+import java.util.Objects;
 
 public class ServicioBibliotecario {
 
@@ -20,6 +23,18 @@ public class ServicioBibliotecario {
     }
 
     public boolean esPrestado(String isbn) {
+        Libro libro = repositorioLibro.obtenerPorIsbn(isbn);
+        if(Objects.nonNull(libro)){
+            return true;
+        }
         return false;
+    }
+
+    public boolean yaEsPrestado(String isbn) {
+        Libro libro = repositorioLibro.obtenerPorIsbn(isbn);
+        if(Objects.nonNull(libro)){
+            return false;
+        }
+        return true;
     }
 }

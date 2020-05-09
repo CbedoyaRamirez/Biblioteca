@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ControladorPrestamo {
 
     @PostMapping("/{isbn}/{nombreCliente}")
     public void prestar(@PathVariable(name = "isbn") String isbn, @PathVariable(name = "nombreCliente") String nombreCliente) {
+        validarCamposParaElPrestamo(isbn, nombreCliente);
         String cadenaReverse = new StringBuilder(isbn).reverse().toString();
         if (cadenaReverse.equals(isbn)) {
             throw new UnsupportedOperationException("Los libros palindromos solo se pueden utilizar en la biblioteca");
@@ -37,7 +39,13 @@ public class ControladorPrestamo {
         }
     }
 
-    private void validacionesPrestamo(String isbn,String nombre) {
+    private void validarCamposParaElPrestamo(String isbn, String nombre) {
+        if (isbn.trim() == "" || nombre.trim() == "") {
+            throw new UnsupportedOperationException("Los libros palindromos solo se pueden utilizar en la biblioteca");
+        }
+    }
+
+    private void validacionesPrestamo(String isbn, String nombre) {
         if (validarCantidadNumericaISBN(isbn)) {
             guardarFechaPrestamo(isbn, nombre, new Date(), calcularFechaEntrega());
         } else {
@@ -45,9 +53,16 @@ public class ControladorPrestamo {
         }
     }
 
-    private Date calcularFechaEntrega(){
+    private Date calcularFechaEntrega() {
+        int cantidadDiasArestar = 0;
         System.out.println(java.sql.Date.valueOf(fechaActual.plusDays(CANTIDADDIASPRESTAMO)));
-        return java.sql.Date.valueOf(fechaActual.plusDays(CANTIDADDIASPRESTAMO));
+        for (int i = 0; i < CANTIDADDIASPRESTAMO; i++) {
+            if (fechaActual.plusDays(i).getDayOfWeek().getValue() == Calendar.SUNDAY) {
+                cantidadDiasArestar = cantidadDiasArestar + 1;
+            }
+        }
+
+        return java.sql.Date.valueOf(fechaActual.plusDays(CANTIDADDIASPRESTAMO - cantidadDiasArestar));
     }
 
     private Boolean validarCantidadNumericaISBN(String isbn) {
@@ -70,7 +85,7 @@ public class ControladorPrestamo {
     }
 
     private void guardarFechaPrestamo(String isbn, String nombre, Date fechaPrestamo, Date fechaEntrega) {
-        manejadorGenerarPrestamo.prestar(isbn,nombre, fechaPrestamo, fechaEntrega);
+        manejadorGenerarPrestamo.prestar(isbn, nombre, fechaPrestamo, fechaEntrega);
     }
 
     @GetMapping("/{isbn}")
