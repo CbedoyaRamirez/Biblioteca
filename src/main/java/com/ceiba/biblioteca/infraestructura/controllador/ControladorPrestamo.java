@@ -80,7 +80,7 @@ public class ControladorPrestamo {
         if (resultado > 30) {
             return true;
         } else {
-            return true;
+            return false;
         }
     }
 
