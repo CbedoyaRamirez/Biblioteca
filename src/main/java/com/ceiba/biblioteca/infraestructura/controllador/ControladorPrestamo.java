@@ -3,21 +3,17 @@ package com.ceiba.biblioteca.infraestructura.controllador;
 import com.ceiba.biblioteca.aplicacion.manejadores.prestamo.ManejadorGenerarPrestamo;
 import com.ceiba.biblioteca.aplicacion.manejadores.prestamo.ManejadorObtenerPrestamo;
 import com.ceiba.biblioteca.dominio.Prestamo;
-import com.ceiba.biblioteca.infraestructura.persistencia.repositorio.RepositorioPrestamoPersistente;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("/prestamos")
 public class ControladorPrestamo {
     private final ManejadorObtenerPrestamo manejadorObtenerPrestamo;
     private final ManejadorGenerarPrestamo manejadorGenerarPrestamo;
+
     LocalDate fechaActual = LocalDate.now();
 
     private static final int CANTIDADDIASPRESTAMO = 15;
@@ -35,7 +31,6 @@ public class ControladorPrestamo {
             throw new UnsupportedOperationException("Los libros palindromos solo se pueden utilizar en la biblioteca");
         } else {
             validacionesPrestamo(isbn, nombreCliente);
-
         }
     }
 

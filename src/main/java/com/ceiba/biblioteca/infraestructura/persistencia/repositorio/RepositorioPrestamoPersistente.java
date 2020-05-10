@@ -9,10 +9,8 @@ import com.ceiba.biblioteca.infraestructura.persistencia.entidad.LibroEntity;
 import com.ceiba.biblioteca.infraestructura.persistencia.entidad.PrestamoEntity;
 import com.ceiba.biblioteca.infraestructura.persistencia.repositorio.jpa.RepositorioLibroJPA;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.swing.plaf.synth.SynthEditorPaneUI;
 import java.util.Date;
 import java.util.List;
 

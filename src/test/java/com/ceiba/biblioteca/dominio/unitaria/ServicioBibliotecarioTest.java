@@ -3,10 +3,12 @@ package com.ceiba.biblioteca.dominio.unitaria;
 
 
 import com.ceiba.biblioteca.dominio.Libro;
+import com.ceiba.biblioteca.dominio.excepcion.PrestamoException;
 import com.ceiba.biblioteca.dominio.repositorio.RepositorioLibro;
 import com.ceiba.biblioteca.dominio.repositorio.RepositorioPrestamo;
 import com.ceiba.biblioteca.dominio.servicio.bibliotecario.ServicioBibliotecario;
 import com.ceiba.biblioteca.testdatabuilder.LibroTestDataBuilder;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -29,6 +31,8 @@ public class ServicioBibliotecarioTest {
 
         ServicioBibliotecario servicioBibliotecario = new ServicioBibliotecario(repositorioLibro, repositorioPrestamo);
 
+        servicioBibliotecario.prestar(libro.getIsbn());
+
         // act
         boolean existeProducto = servicioBibliotecario.yaEsPrestado(libro.getIsbn());
 
@@ -48,6 +52,12 @@ public class ServicioBibliotecarioTest {
         when(repositorioPrestamo.obtenerLibroPrestadoPorIsbn(libro.getIsbn())).thenReturn(null);
 
         ServicioBibliotecario servicioBibliotecario = new ServicioBibliotecario(repositorioLibro, repositorioPrestamo);
+
+        try {
+            servicioBibliotecario.prestar(libro.getIsbn());
+        }catch (PrestamoException pe){
+            Assert.assertEquals(servicioBibliotecario.EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE, pe.getMessage());
+        }
 
         // act
         boolean existeProducto = servicioBibliotecario.esPrestado(libro.getIsbn());

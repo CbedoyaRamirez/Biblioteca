@@ -1,9 +1,10 @@
 package com.ceiba.biblioteca.dominio.servicio.bibliotecario;
 
 import com.ceiba.biblioteca.dominio.Libro;
+import com.ceiba.biblioteca.dominio.Prestamo;
 import com.ceiba.biblioteca.dominio.repositorio.RepositorioLibro;
 import com.ceiba.biblioteca.dominio.repositorio.RepositorioPrestamo;
-
+import com.ceiba.biblioteca.dominio.excepcion.PrestamoException;
 import java.util.Objects;
 
 public class ServicioBibliotecario {
@@ -18,8 +19,14 @@ public class ServicioBibliotecario {
         this.repositorioPrestamo = repositorioPrestamo;
     }
 
-    public void prestar(String isbn, String nombreUsuario) {
-        throw new UnsupportedOperationException("Método pendiente por implementar");
+    public void prestar(String isbn) {   
+        if (!esPrestado(isbn)) {
+            //consulta el libro
+            Libro libroAPrestar = repositorioLibro.obtenerPorIsbn(isbn);
+            repositorioPrestamo.agregar(prestarLibro(libroAPrestar));
+        } else {
+            throw new PrestamoException(EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE);
+        }
     }
 
     public boolean esPrestado(String isbn) {
@@ -36,5 +43,9 @@ public class ServicioBibliotecario {
             return false;
         }
         return true;
+    }
+
+    private Prestamo prestarLibro(Libro libro) {
+        return new Prestamo(libro);
     }
 }

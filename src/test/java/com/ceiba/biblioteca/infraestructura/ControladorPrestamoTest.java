@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class ControladorPrestamoTest {
     public static final String ESTE_PRODUCTO_NO_CUENTA_CON_GARANTIA = "Este producto no cuenta con garantía extendida";
-    //public static final String ISBN_LIBRO_PD1023 = "PD1023";
     public static final String ISBN_LIBRO_PD1023 = "PD1023";
     public static final String NOMBRE_CLIENTE_PEDRO = "PEDRO";
 
